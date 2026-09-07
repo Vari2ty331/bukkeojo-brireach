@@ -462,12 +462,19 @@ function validateAndCalculate() {
     }
   }
 
-  const totalAcquiredOrbs = state.runs.reduce(
+  // 공유상자에서 구매한 구슬은 분배금 계산에 사용하고,
+  // 개인상자 구슬(관당 1개)은 보유 구슬 현황에만 추가합니다.
+  const sharedAcquiredOrbs = state.runs.reduce(
     (sum, run) => sum + run.orbs.reduce((runSum, value) => runSum + Number(value), 0),
     0
   );
+  const personalBoxOrbs = state.runs.length * 3;
+  const totalAcquiredOrbs = sharedAcquiredOrbs + personalBoxOrbs;
+
   const orbProgress = {
     currentBefore: currentOrbCount,
+    sharedAcquired: sharedAcquiredOrbs,
+    personalAcquired: personalBoxOrbs,
     acquired: totalAcquiredOrbs,
     currentAfter: currentOrbCount + totalAcquiredOrbs,
     target: targetOrbCount
@@ -558,7 +565,7 @@ function renderResults(shares, histories, orbProgress) {
         <span class="orb-progress-divider">/</span>
         ${targetText}
       </div>
-      <div class="hint">정산 전 ${orbProgress.currentBefore}개 → 정산 후 ${orbProgress.currentAfter}개</div>
+      <div class="hint">공유상자 ${orbProgress.sharedAcquired}개 + 개인상자 ${orbProgress.personalAcquired}개 · 정산 전 ${orbProgress.currentBefore}개 → 정산 후 ${orbProgress.currentAfter}개</div>
     </div>
   `;
 

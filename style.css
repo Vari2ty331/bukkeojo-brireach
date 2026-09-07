@@ -89,6 +89,12 @@ button:disabled {
   margin-bottom: 18px;
 }
 
+
+.orb-progress-card > .hint {
+  grid-column: 1 / -1;
+  margin-top: -8px;
+}
+
 .field-block label,
 .gate-input-group > label {
   display: block;
