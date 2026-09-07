@@ -589,8 +589,12 @@ function renderResults(shares, histories, orbProgress) {
     : "";
 
   const discordLines = [
-    `[${formatToday()}] ${state.runs.length}릴 획득 구슬 총 ${orbProgress.acquired}개, ${orbProgress.currentAfter}개(+${orbProgress.acquired}개)/${targetText}`,
-    "분배금:"
+    `[${formatToday()}] ${state.runs.length}릴 획득 구슬 총 ${orbProgress.acquired}개`,
+    "",
+    `- 구슬 현황 : ${orbProgress.currentAfter}개(+${orbProgress.acquired}개)/${targetText}`,
+    "",
+    "분배금 :",
+    ""
   ];
 
   if (groupedResults.length) {
@@ -603,17 +607,11 @@ function renderResults(shares, histories, orbProgress) {
     discordLines.push("- 지급할 파티원 없음");
   }
 
-  if (state.guest) {
-    discordLines.push("- 구슬 구매자(본인): 손님 설정으로 분배 제외");
-  } else {
-    discordLines.push(`- 구슬 구매자(본인) 몫: ${formatKoreanGold(buyerPayable)} (송금 불필요)`);
-  }
-
   if (incidents.length) {
     const incidentText = incidents
       .map(item => `${item.run}릴 ${item.gate}관${item.note ? `(${item.note})` : ""}`)
       .join(", ");
-    discordLines.push(`입찰 사고: ${incidentText}`);
+    discordLines.push("", `입찰 사고: ${incidentText}`);
   }
 
   state.lastDiscordText = discordLines.join("\n");
