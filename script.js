@@ -382,7 +382,7 @@ function renderRuns() {
       <div class="run-header">
         <h2>${run.number}릴</h2>
         <div class="run-status">
-          ${activeMembers.length ? `참여 ${activeMembers.length}명 · 정산 ${eligibleCount}명` : "인원을 입력해주세요"}
+          ${activeMembers.length ? `참여 ${eligibleCount}명` : "인원을 입력해주세요"}
         </div>
       </div>
 
@@ -513,7 +513,7 @@ function renderResults(shares, histories, orbProgress) {
   const groups = new Map();
 
   state.members
-    .filter(member => !member.isBuyer)
+    .filter(member => !(state.guest && member.isBuyer))
     .forEach(member => {
       const history = histories.get(member.id) || [];
       if (history.length === 0) return;
@@ -545,12 +545,6 @@ function renderResults(shares, histories, orbProgress) {
       </div>
     </div>
   `).join("");
-
-  const buyerExact = shares.get("buyer") || 0;
-  const buyerPayable = Math.floor(buyerExact / 10000) * 10000;
-  const buyerHtml = state.guest
-    ? `<div class="buyer-note">구슬 구매자(본인): 손님 설정으로 분배 제외</div>`
-    : `<div class="buyer-note">구슬 구매자(본인) 몫: <strong>${formatKoreanGold(buyerPayable)}</strong> · 실제 송금 불필요</div>`;
 
   const targetText = orbProgress.target === null
     ? "목표 미설정"
@@ -624,8 +618,7 @@ function renderResults(shares, histories, orbProgress) {
 
   resultsContainer.innerHTML = `
     ${orbProgressHtml}
-    ${groupHtml || '<p class="hint">지급할 파티원이 없습니다.</p>'}
-    ${buyerHtml}
+    ${groupHtml || '<p class="hint">분배 대상 인원이 없습니다.</p>'}
     ${incidentHtml}
   `;
 
