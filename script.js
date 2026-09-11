@@ -596,12 +596,11 @@ function renderResults(shares, histories, orbProgress) {
     : "";
 
   const discordLines = [
-    `[${formatToday()}] ${state.runs.length}릴 획득 구슬 총 ${orbProgress.acquired}개`,
-    "",
+    `[${formatToday()}] ${state.runs.length}릴 획득 구슬 총 ${orbProgress.sharedAcquired}개`,
+    `- 획득 구슬 : 공유상자 ${orbProgress.sharedAcquired}개 + 개인상자 ${orbProgress.personalAcquired}개`,
     `- 구슬 현황 : ${orbProgress.currentAfter}개(+${orbProgress.acquired}개)/${targetText}`,
     "",
-    "분배금 :",
-    ""
+    "분배금 :"
   ];
 
   if (groupedResults.length) {
