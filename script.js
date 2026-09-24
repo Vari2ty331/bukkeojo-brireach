@@ -1,5 +1,5 @@
 const state = {
-  price: 350000,
+  price: 300000,
   guest: false,
   lastDiscordText: "",
   initialPartySize: null,
